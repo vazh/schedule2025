@@ -1,10 +1,11 @@
 {
-  "name": "July 2025 Schedule",
-  "short_name": "July Schedule",
-  "start_url": "./index.html",
+  "start_url": "/schedule2025/",
+  "scope": "/schedule2025/",
   "display": "standalone",
-  "background_color": "#667eea",
+  "name": "Weekly Schedule 2025",
+  "short_name": "Schedule 2025",
   "theme_color": "#764ba2",
+  "background_color": "#667eea",
   "icons": [
     {
       "src": "icon-192.png",

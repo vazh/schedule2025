@@ -1,5 +1,9 @@
-const CACHE_NAME = 'july-schedule-cache-v1';
-const urlsToCache = ['/', '/index.html'];
+const CACHE_NAME = 'schedule2025-v1';
+const urlsToCache = [
+  '/schedule2025/',
+  '/schedule2025/index.html',
+  // add other files here
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
