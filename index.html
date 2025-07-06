@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>July 2025 Schedule</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 1px;
+            background: #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .time-header, .day-header {
+            background: #4a5568;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            padding: 8px 4px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+
+        .day-header {
+            font-size: 10px;
+            padding: 6px 2px;
+        }
+
+        .time-slot {
+            background: #f7fafc;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 12px 4px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .activity-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+
+        .activity-cell {
+            background: #f7fafc;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .activity-cell.has-activity {
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .activity-cell.empty {
+            background: #f1f5f9;
+            color: #cbd5e0;
+        }
+
+        /* Activity color coding */
+        .bimba { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+        .baby-gym { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .baby-sport { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+        .gymnastic { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .art-craft { background: linear-gradient(135deg, #feca57, #ff9ff3); }
+        .mix-sport { background: linear-gradient(135deg, #3742fa, #2f3542); }
+        .fun-fit { background: linear-gradient(135deg, #2ed573, #7bed9f); }
+        .bootcamp { background: linear-gradient(135deg, #ff4757, #c44569); }
+        .push-bike { background: linear-gradient(135deg, #ff9500, #ff6b35); }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .stats h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .activity-cell {
+                font-size: 9px;
+                padding: 6px 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>July 2025</h1>
+            <p>Weekly Activity Schedule</p>
+        </div>
+
+        <div class="schedule-grid">
+            <!-- Header row -->
+            <div class="time-header">Time</div>
+            <div class="days-grid">
+                <div class="day-header">MON</div>
+                <div class="day-header">TUE</div>
+                <div class="day-header">WED</div>
+                <div class="day-header">THU</div>
+                <div class="day-header">FRI</div>
+                <div class="day-header">SAT</div>
+                <div class="day-header">SUN</div>
+            </div>
+
+            <!-- 08:00 -->
+            <div class="time-slot">08:00</div>
+            <div class="activity-row">
+                <div class="activity-cell has-activity bimba">Bimba</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity bimba">Bimba</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity bimba">Bimba</div>
+                <div class="activity-cell has-activity push-bike">Push Bike</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 09:00 -->
+            <div class="time-slot">09:00</div>
+            <div class="activity-row">
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
+                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity push-bike">Push Bike</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 10:00 -->
+            <div class="time-slot">10:00</div>
+            <div class="activity-row">
+                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
+                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity push-bike">Push Bike</div>
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
+            </div>
+
+            <!-- 11:00 -->
+            <div class="time-slot">11:00</div>
+            <div class="activity-row">
+                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity push-bike">Push Bike</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 12:00 -->
+            <div class="time-slot">12:00</div>
+            <div class="activity-row">
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 13:00 -->
+            <div class="time-slot">13:00</div>
+            <div class="activity-row">
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 14:00 -->
+            <div class="time-slot">14:00</div>
+            <div class="activity-row">
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
+                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+            </div>
+
+            <!-- 15:00 -->
+            <div class="time-slot">15:00</div>
+            <div class="activity-row">
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity fun-fit">Fun & Fit</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
+                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
+                <div class="activity-cell has-activity bootcamp">Boot camp</div>
+            </div>
+
+            <!-- 16:00 -->
+            <div class="time-slot">16:00</div>
+            <div class="activity-row">
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);"></div>
+                <span>Bimba</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4ecdc4, #44a08d);"></div>
+                <span>Baby Gym</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #45b7d1, #96c93d);"></div>
+                <span>Baby Sport</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
+                <span>Gymnastic</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #feca57, #ff9ff3);"></div>
+                <span>Art & Craft</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #3742fa, #2f3542);"></div>
+                <span>Mix Sport</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #2ed573, #7bed9f);"></div>
+                <span>Fun & Fit</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #ff4757, #c44569);"></div>
+                <span>Bootcamp</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #ff9500, #ff6b35);"></div>
+                <span>Push Bike</span>
+            </div>
+        </div>
+    </div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
+</script>
+</body>
+</html>
