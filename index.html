@@ -219,13 +219,51 @@
         }
 
         .selected-image {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 15px;
-            margin-top: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            z-index: 1000;
             display: none;
-            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            display: none;
+        }
+
+        .close-image-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .close-image-btn:hover {
+            background: white;
+            transform: scale(1.1);
         }
 
         .image-filename {
@@ -233,6 +271,7 @@
             color: #718096;
             margin-top: 8px;
             font-style: italic;
+            display: none;
         }
 
         /* Activity color coding */
@@ -529,8 +568,10 @@
             <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
         </div>
 
-        <div id="imageContainer" style="text-align: center;">
+        <div id="imageContainer">
+            <div id="imageOverlay" class="image-overlay"></div>
             <img id="selectedImage" class="selected-image" alt="Selected image">
+            <button id="closeImageBtn" class="close-image-btn" onclick="hideImage()">✕</button>
             <div id="imageFilename" class="image-filename"></div>
         </div>
     </div>
@@ -617,27 +658,57 @@
 
         // Function to toggle image visibility
         function toggleImage() {
+            if (selectedImageData) {
+                if (!isImageVisible) {
+                    showImage();
+                } else {
+                    hideImage();
+                }
+            }
+        }
+
+        // Function to show image fullscreen
+        function showImage() {
             const imgElement = document.getElementById('selectedImage');
-            const filenameElement = document.getElementById('imageFilename');
+            const overlayElement = document.getElementById('imageOverlay');
+            const closeBtn = document.getElementById('closeImageBtn');
             const showBtn = document.getElementById('showImageBtn');
             
             if (selectedImageData) {
-                if (!isImageVisible) {
-                    // Show image
-                    imgElement.style.display = 'block';
-                    filenameElement.style.display = 'block';
-                    showBtn.textContent = '🙈 Hide Image';
-                    showBtn.classList.add('hide-mode');
-                    isImageVisible = true;
-                } else {
-                    // Hide image
-                    imgElement.style.display = 'none';
-                    filenameElement.style.display = 'none';
-                    showBtn.textContent = '👁️ Show Image';
-                    showBtn.classList.remove('hide-mode');
-                    isImageVisible = false;
-                }
+                // Show fullscreen image
+                overlayElement.style.display = 'block';
+                imgElement.style.display = 'block';
+                closeBtn.style.display = 'block';
+                
+                // Update button
+                showBtn.textContent = '🙈 Hide Image';
+                showBtn.classList.add('hide-mode');
+                isImageVisible = true;
+                
+                // Prevent body scroll
+                document.body.style.overflow = 'hidden';
             }
+        }
+
+        // Function to hide image
+        function hideImage() {
+            const imgElement = document.getElementById('selectedImage');
+            const overlayElement = document.getElementById('imageOverlay');
+            const closeBtn = document.getElementById('closeImageBtn');
+            const showBtn = document.getElementById('showImageBtn');
+            
+            // Hide fullscreen image
+            overlayElement.style.display = 'none';
+            imgElement.style.display = 'none';
+            closeBtn.style.display = 'none';
+            
+            // Update button
+            showBtn.textContent = '👁️ Show Image';
+            showBtn.classList.remove('hide-mode');
+            isImageVisible = false;
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
         }
 
         // Start animations when page loads
