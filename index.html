@@ -567,13 +567,13 @@
             <button class="show-image-btn" id="showImageBtn" onclick="toggleImage()">👁️ Show Image</button>
             <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
         </div>
+    </div>
 
-        <div id="imageContainer">
-            <div id="imageOverlay" class="image-overlay"></div>
-            <img id="selectedImage" class="selected-image" alt="Selected image">
-            <button id="closeImageBtn" class="close-image-btn" onclick="hideImage()">✕</button>
-            <div id="imageFilename" class="image-filename"></div>
-        </div>
+    <div id="imageContainer">
+        <div id="imageOverlay" class="image-overlay"></div>
+        <img id="selectedImage" class="selected-image" alt="Selected image">
+        <button id="closeImageBtn" class="close-image-btn" onclick="hideImage()">✕</button>
+        <div id="imageFilename" class="image-filename"></div>
     </div>
 
     <script>
