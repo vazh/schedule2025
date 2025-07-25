@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +58,8 @@
             margin-bottom: 20px;
         }
 
-        .time-header, .day-header {
+        .time-header,
+        .day-header {
             background: #4a5568;
             color: white;
             font-weight: 600;
@@ -156,16 +158,119 @@
             transform: translateY(-10px);
         }
 
+        .image-controls {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .image-select-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .image-select-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .image-select-btn:active {
+            transform: translateY(0);
+        }
+
+        .show-image-btn {
+            background: linear-gradient(135deg, #2ed573, #7bed9f);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+            display: none;
+        }
+
+        .show-image-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 213, 115, 0.4);
+        }
+
+        .show-image-btn.hide-mode {
+            background: linear-gradient(135deg, #ff4757, #c44569);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        .show-image-btn.hide-mode:hover {
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .selected-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 15px;
+            margin-top: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            display: none;
+            object-fit: cover;
+        }
+
+        .image-filename {
+            font-size: 10px;
+            color: #718096;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
         /* Activity color coding */
-        .bimba { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
-        .baby-gym { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
-        .baby-sport { background: linear-gradient(135deg, #45b7d1, #96c93d); }
-        .gymnastic { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .art-craft { background: linear-gradient(135deg, #feca57, #ff9ff3); }
-        .mix-sport { background: linear-gradient(135deg, #3742fa, #2f3542); }
-        .fun-fit { background: linear-gradient(135deg, #2ed573, #7bed9f); }
-        .bootcamp { background: linear-gradient(135deg, #ff4757, #c44569); }
-        .push-bike { background: linear-gradient(135deg, #ff9500, #ff6b35); }
+        .bimba {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .baby-gym {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .baby-sport {
+            background: linear-gradient(135deg, #45b7d1, #96c93d);
+        }
+
+        .gymnastic {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .art-craft {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+        }
+
+        .mix-sport {
+            background: linear-gradient(135deg, #3742fa, #2f3542);
+        }
+
+        .fun-fit {
+            background: linear-gradient(135deg, #2ed573, #7bed9f);
+        }
+
+        .bootcamp {
+            background: linear-gradient(135deg, #ff4757, #c44569);
+        }
+
+        .push-bike {
+            background: linear-gradient(135deg, #ff9500, #ff6b35);
+        }
 
         .legend {
             display: flex;
@@ -173,6 +278,7 @@
             gap: 8px;
             justify-content: center;
             margin-top: 20px;
+            margin-bottom: 15px;
         }
 
         .legend-item {
@@ -231,7 +337,7 @@
             .container {
                 padding: 15px;
             }
-            
+
             .activity-cell {
                 font-size: 9px;
                 padding: 6px 2px;
@@ -239,6 +345,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -415,51 +522,128 @@
                 <span>Push Bike</span>
             </div>
         </div>
+
+        <div class="image-controls">
+            <button class="image-select-btn" onclick="selectImage()">📷 Select Image</button>
+            <button class="show-image-btn" id="showImageBtn" onclick="toggleImage()">👁️ Show Image</button>
+            <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
+        </div>
+
+        <div id="imageContainer" style="text-align: center;">
+            <img id="selectedImage" class="selected-image" alt="Selected image">
+            <div id="imageFilename" class="image-filename"></div>
+        </div>
     </div>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(
-      '/schedule2025/service-worker.js',
-      { scope: '/schedule2025/' }
-    );
-  }
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register(
+                '/schedule2025/service-worker.js',
+                { scope: '/schedule2025/' }
+            );
+        }
 
-  // Function to animate multi-activity cells
-    function animateMultiActivities() {
-        const multiCells = document.querySelectorAll('.multi-activity');
-        
-        multiCells.forEach(cell => {
-            const options = cell.querySelectorAll('.activity-option');
-            if (options.length <= 1) return;
+        let selectedImageData = null;
+        let selectedFileName = '';
+        let isImageVisible = false;
+
+        // Function to animate multi-activity cells
+        function animateMultiActivities() {
+            const multiCells = document.querySelectorAll('.multi-activity');
+
+            multiCells.forEach(cell => {
+                const options = cell.querySelectorAll('.activity-option');
+                if (options.length <= 1) return;
+
+                let currentIndex = 0;
+
+                // Set initial state
+                options[currentIndex].classList.add('active');
+
+                // Create animation interval for each cell
+                setInterval(() => {
+                    // Remove active class from current option
+                    options[currentIndex].classList.remove('active');
+                    options[currentIndex].classList.add('next');
+
+                    // Move to next option
+                    currentIndex = (currentIndex + 1) % options.length;
+
+                    // Add active class to new option
+                    setTimeout(() => {
+                        options.forEach(opt => opt.classList.remove('next'));
+                        options[currentIndex].classList.add('active');
+                    }, 250);
+
+                }, 3000); // Change every 3 seconds
+            });
+        }
+
+        // Function to trigger file input
+        function selectImage() {
+            document.getElementById('imageInput').click();
+        }
+
+        // Function to handle image selection
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImageData = e.target.result;
+                    selectedFileName = file.name;
+                    
+                    // Update image element
+                    const imgElement = document.getElementById('selectedImage');
+                    const filenameElement = document.getElementById('imageFilename');
+                    
+                    imgElement.src = selectedImageData;
+                    filenameElement.textContent = selectedFileName;
+                    
+                    // Show the show/hide button
+                    const showBtn = document.getElementById('showImageBtn');
+                    showBtn.style.display = 'inline-block';
+                    showBtn.textContent = '👁️ Show Image';
+                    showBtn.classList.remove('hide-mode');
+                    
+                    // Hide image initially
+                    imgElement.style.display = 'none';
+                    filenameElement.style.display = 'none';
+                    isImageVisible = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Function to toggle image visibility
+        function toggleImage() {
+            const imgElement = document.getElementById('selectedImage');
+            const filenameElement = document.getElementById('imageFilename');
+            const showBtn = document.getElementById('showImageBtn');
             
-            let currentIndex = 0;
-            
-            // Set initial state
-            options[currentIndex].classList.add('active');
-            
-            // Create animation interval for each cell
-            setInterval(() => {
-                // Remove active class from current option
-                options[currentIndex].classList.remove('active');
-                options[currentIndex].classList.add('next');
-                
-                // Move to next option
-                currentIndex = (currentIndex + 1) % options.length;
-                
-                // Add active class to new option
-                setTimeout(() => {
-                    options.forEach(opt => opt.classList.remove('next'));
-                    options[currentIndex].classList.add('active');
-                }, 250);
-                
-            }, 3000); // Change every 3 seconds
-        });
-    }
-    
-    // Start animations when page loads
-    document.addEventListener('DOMContentLoaded', animateMultiActivities);
-</script>
+            if (selectedImageData) {
+                if (!isImageVisible) {
+                    // Show image
+                    imgElement.style.display = 'block';
+                    filenameElement.style.display = 'block';
+                    showBtn.textContent = '🙈 Hide Image';
+                    showBtn.classList.add('hide-mode');
+                    isImageVisible = true;
+                } else {
+                    // Hide image
+                    imgElement.style.display = 'none';
+                    filenameElement.style.display = 'none';
+                    showBtn.textContent = '👁️ Show Image';
+                    showBtn.classList.remove('hide-mode');
+                    isImageVisible = false;
+                }
+            }
+        }
+
+        // Start animations when page loads
+        document.addEventListener('DOMContentLoaded', animateMultiActivities);
+    </script>
 
 </body>
+
 </html>
