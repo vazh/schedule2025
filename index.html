@@ -123,6 +123,39 @@
             color: #cbd5e0;
         }
 
+        .activity-cell.multi-activity {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-option {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease-in-out;
+            padding: 8px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .activity-option.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .activity-option.next {
+            transform: translateY(-10px);
+        }
+
         /* Activity color coding */
         .bimba { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
         .baby-gym { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
@@ -243,7 +276,7 @@
             <div class="activity-row">
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell has-activity baby-gym">Baby Gym</div>
-                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
+                <div class="activity-cell empty">-</div>
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell has-activity push-bike">Push Bike</div>
@@ -255,10 +288,13 @@
             <div class="activity-row">
                 <div class="activity-cell has-activity baby-gym">Baby Gym</div>
                 <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
+                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
                 <div class="activity-cell has-activity gymnastic">Gym nastic</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity push-bike">Push Bike</div>
+                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
+                <div class="activity-cell multi-activity">
+                    <div class="activity-option push-bike active">Push Bike</div>
+                    <div class="activity-option baby-sport">Baby Sport</div>
+                </div>
                 <div class="activity-cell has-activity art-craft">Art & Craft</div>
             </div>
 
@@ -267,11 +303,14 @@
             <div class="activity-row">
                 <div class="activity-cell has-activity baby-sport">Baby Sport</div>
                 <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
                 <div class="activity-cell has-activity mix-sport">Mix Sport</div>
                 <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity push-bike">Push Bike</div>
-                <div class="activity-cell empty">-</div>
+                <div class="activity-cell multi-activity">
+                    <div class="activity-option push-bike active">Push Bike</div>
+                    <div class="activity-option baby-gym">Baby Gym</div>
+                </div>
+                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
             </div>
 
             <!-- 12:00 -->
@@ -305,7 +344,7 @@
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell has-activity art-craft">Art & Craft</div>
                 <div class="activity-cell has-activity gymnastic">Gym nastic</div>
-                <div class="activity-cell empty">-</div>
+                <div class="activity-cell has-activity art-craft">Art & Craft</div>
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell empty">-</div>
             </div>
@@ -317,8 +356,11 @@
                 <div class="activity-cell empty">-</div>
                 <div class="activity-cell has-activity fun-fit">Fun & Fit</div>
                 <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
+                <div class="activity-cell has-activity fun-fit">Fun & Fit</div>
+                <div class="activity-cell multi-activity">
+                    <div class="activity-option mix-sport active">Mix Sport</div>
+                    <div class="activity-option fun-fit">Fun & Fit</div>
+                </div>
                 <div class="activity-cell has-activity bootcamp">Boot camp</div>
             </div>
 
@@ -382,6 +424,41 @@
       { scope: '/schedule2025/' }
     );
   }
+
+  // Function to animate multi-activity cells
+    function animateMultiActivities() {
+        const multiCells = document.querySelectorAll('.multi-activity');
+        
+        multiCells.forEach(cell => {
+            const options = cell.querySelectorAll('.activity-option');
+            if (options.length <= 1) return;
+            
+            let currentIndex = 0;
+            
+            // Set initial state
+            options[currentIndex].classList.add('active');
+            
+            // Create animation interval for each cell
+            setInterval(() => {
+                // Remove active class from current option
+                options[currentIndex].classList.remove('active');
+                options[currentIndex].classList.add('next');
+                
+                // Move to next option
+                currentIndex = (currentIndex + 1) % options.length;
+                
+                // Add active class to new option
+                setTimeout(() => {
+                    options.forEach(opt => opt.classList.remove('next'));
+                    options[currentIndex].classList.add('active');
+                }, 250);
+                
+            }, 3000); // Change every 3 seconds
+        });
+    }
+    
+    // Start animations when page loads
+    document.addEventListener('DOMContentLoaded', animateMultiActivities);
 </script>
 
 </body>
