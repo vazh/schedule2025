@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly Schedule 2025</title>
-    <link rel="manifest" href="/schedule2025/manifest.json">
+    <title>Activity Schedule PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         * {
             margin: 0;
@@ -32,7 +33,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .header h1 {
@@ -48,6 +49,33 @@
             font-weight: 500;
         }
 
+        .month-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .month-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .month-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .month-btn.active {
+            background: linear-gradient(135deg, #2ed573, #7bed9f);
+        }
+
         .schedule-grid {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -58,8 +86,7 @@
             margin-bottom: 20px;
         }
 
-        .time-header,
-        .day-header {
+        .time-header, .day-header {
             background: #4a5568;
             color: white;
             font-weight: 600;
@@ -158,6 +185,40 @@
             transform: translateY(-10px);
         }
 
+        /* Activity color coding */
+        .bimba { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+        .baby-gym { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .baby-sport { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+        .gymnastic { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .art-craft { background: linear-gradient(135deg, #feca57, #ff9ff3); }
+        .mix-sport { background: linear-gradient(135deg, #3742fa, #2f3542); }
+        .fun-fit { background: linear-gradient(135deg, #2ed573, #7bed9f); }
+        .bootcamp { background: linear-gradient(135deg, #ff4757, #c44569); }
+        .push-bike { background: linear-gradient(135deg, #ff9500, #ff6b35); }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
         .image-controls {
             text-align: center;
             margin-bottom: 15px;
@@ -180,10 +241,6 @@
         .image-select-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .image-select-btn:active {
-            transform: translateY(0);
         }
 
         .show-image-btn {
@@ -210,23 +267,16 @@
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
         }
 
-        .show-image-btn.hide-mode:hover {
-            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
-        }
-
         #imageInput {
             display: none;
         }
 
         .selected-image {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 100vw;
-            max-height: 100vh;
-            width: auto;
-            height: auto;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             object-fit: contain;
             z-index: 1000;
             display: none;
@@ -274,109 +324,11 @@
             display: none;
         }
 
-        /* Activity color coding */
-        .bimba {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-        }
-
-        .baby-gym {
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-        }
-
-        .baby-sport {
-            background: linear-gradient(135deg, #45b7d1, #96c93d);
-        }
-
-        .gymnastic {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-        }
-
-        .art-craft {
-            background: linear-gradient(135deg, #feca57, #ff9ff3);
-        }
-
-        .mix-sport {
-            background: linear-gradient(135deg, #3742fa, #2f3542);
-        }
-
-        .fun-fit {
-            background: linear-gradient(135deg, #2ed573, #7bed9f);
-        }
-
-        .bootcamp {
-            background: linear-gradient(135deg, #ff4757, #c44569);
-        }
-
-        .push-bike {
-            background: linear-gradient(135deg, #ff9500, #ff6b35);
-        }
-
-        .legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 20px;
-            margin-bottom: 15px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
-
-        .stats {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .stats h3 {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            backdrop-filter: blur(5px);
-        }
-
-        .stat-number {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            opacity: 0.9;
-        }
-
         @media (max-width: 360px) {
             .container {
                 padding: 15px;
             }
-
+            
             .activity-cell {
                 font-size: 9px;
                 padding: 6px 2px;
@@ -384,143 +336,20 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <h1>July 2025</h1>
+            <h1 id="monthTitle">July 2025</h1>
             <p>Weekly Activity Schedule</p>
         </div>
 
-        <div class="schedule-grid">
-            <!-- Header row -->
-            <div class="time-header">Time</div>
-            <div class="days-grid">
-                <div class="day-header">MON</div>
-                <div class="day-header">TUE</div>
-                <div class="day-header">WED</div>
-                <div class="day-header">THU</div>
-                <div class="day-header">FRI</div>
-                <div class="day-header">SAT</div>
-                <div class="day-header">SUN</div>
-            </div>
+        <div class="month-selector">
+            <button class="month-btn active" onclick="switchMonth('july')">July</button>
+            <button class="month-btn" onclick="switchMonth('august')">August</button>
+        </div>
 
-            <!-- 08:00 -->
-            <div class="time-slot">08:00</div>
-            <div class="activity-row">
-                <div class="activity-cell has-activity bimba">Bimba</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity bimba">Bimba</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity bimba">Bimba</div>
-                <div class="activity-cell has-activity push-bike">Push Bike</div>
-                <div class="activity-cell empty">-</div>
-            </div>
-
-            <!-- 09:00 -->
-            <div class="time-slot">09:00</div>
-            <div class="activity-row">
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity push-bike">Push Bike</div>
-                <div class="activity-cell empty">-</div>
-            </div>
-
-            <!-- 10:00 -->
-            <div class="time-slot">10:00</div>
-            <div class="activity-row">
-                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
-                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
-                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
-                <div class="activity-cell multi-activity">
-                    <div class="activity-option push-bike active">Push Bike</div>
-                    <div class="activity-option baby-sport">Baby Sport</div>
-                </div>
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-            </div>
-
-            <!-- 11:00 -->
-            <div class="time-slot">11:00</div>
-            <div class="activity-row">
-                <div class="activity-cell has-activity baby-sport">Baby Sport</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity baby-gym">Baby Gym</div>
-                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell multi-activity">
-                    <div class="activity-option push-bike active">Push Bike</div>
-                    <div class="activity-option baby-gym">Baby Gym</div>
-                </div>
-                <div class="activity-cell has-activity mix-sport">Mix Sport</div>
-            </div>
-
-            <!-- 12:00 -->
-            <div class="time-slot">12:00</div>
-            <div class="activity-row">
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-            </div>
-
-            <!-- 13:00 -->
-            <div class="time-slot">13:00</div>
-            <div class="activity-row">
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-            </div>
-
-            <!-- 14:00 -->
-            <div class="time-slot">14:00</div>
-            <div class="activity-row">
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-            </div>
-
-            <!-- 15:00 -->
-            <div class="time-slot">15:00</div>
-            <div class="activity-row">
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity fun-fit">Fun & Fit</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity fun-fit">Fun & Fit</div>
-                <div class="activity-cell multi-activity">
-                    <div class="activity-option mix-sport active">Mix Sport</div>
-                    <div class="activity-option fun-fit">Fun & Fit</div>
-                </div>
-                <div class="activity-cell has-activity bootcamp">Boot camp</div>
-            </div>
-
-            <!-- 16:00 -->
-            <div class="time-slot">16:00</div>
-            <div class="activity-row">
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity art-craft">Art & Craft</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell empty">-</div>
-                <div class="activity-cell has-activity gymnastic">Gym nastic</div>
-            </div>
+        <div id="scheduleContainer">
+            <!-- Schedule will be dynamically loaded here -->
         </div>
 
         <div class="legend">
@@ -569,6 +398,7 @@
         </div>
     </div>
 
+    <!-- Image overlay moved outside container for full page coverage -->
     <div id="imageContainer">
         <div id="imageOverlay" class="image-overlay"></div>
         <img id="selectedImage" class="selected-image" alt="Selected image">
@@ -577,45 +407,173 @@
     </div>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(
-                '/schedule2025/service-worker.js',
-                { scope: '/schedule2025/' }
-            );
-        }
+        // Schedule data for different months
+        const scheduleData = {
+            july: {
+                title: "July 2025",
+                schedule: {
+                    "08:00": ["Bimba", "-", "Bimba", "-", "Bimba", "Push Bike", "-"],
+                    "09:00": ["-", "Baby Gym", "Baby Sport", "-", "-", "Push Bike", "-"],
+                    "10:00": ["Baby Gym", "-", "Baby Gym", ["Gymnastic", "Baby Sport"], "-", "Push Bike", "Art & Craft"],
+                    "11:00": ["Baby Sport", "-", "-", "Mix Sport", "-", "Push Bike", "-"],
+                    "12:00": ["-", "-", "-", "-", "-", "-", "-"],
+                    "13:00": ["-", "-", "-", "-", "-", "-", "-"],
+                    "14:00": ["-", "-", "Art & Craft", "Gymnastic", "-", "-", "-"],
+                    "15:00": ["Art & Craft", "-", ["Fun & Fit", "Baby Gym"], "-", "Art & Craft", ["Mix Sport", "Gymnastic"], "Bootcamp"],
+                    "16:00": ["-", "-", "Art & Craft", "-", "-", "Fun & Fit", "Gymnastic"]
+                }
+            },
+            august: {
+                title: "August 2025",
+                schedule: {
+                    "08:00": ["Bimba", "Baby Gym", "Bimba", "-", "Bimba", "Push Bike", "Art & Craft"],
+                    "09:00": ["Baby Sport", "Baby Gym", "Baby Sport", "Gymnastic", "-", "Push Bike", "-"],
+                    "10:00": ["Baby Gym", "Art & Craft", "Baby Gym", "Gymnastic", "Fun & Fit", "Push Bike", "Art & Craft"],
+                    "11:00": ["Baby Sport", "-", "Mix Sport", "Mix Sport", "-", "Push Bike", "Bootcamp"],
+                    "12:00": ["-", "-", "-", "-", "-", "-", "-"],
+                    "13:00": ["-", "-", "-", "-", "-", "-", "-"],
+                    "14:00": ["Fun & Fit", "-", "Art & Craft", "Gymnastic", "Baby Gym", "-", "-"],
+                    "15:00": ["Art & Craft", "Bootcamp", "Fun & Fit", "-", "Art & Craft", "Mix Sport", "Bootcamp"],
+                    "16:00": ["-", "Gymnastic", "Art & Craft", "Baby Sport", "-", "Fun & Fit", "Gymnastic"]
+                }
+            }
+        };
 
         let selectedImageData = null;
         let selectedFileName = '';
         let isImageVisible = false;
+        let currentMonth = 'july';
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+
+        // Load saved image from localStorage
+        function loadSavedImage() {
+            const savedImage = localStorage.getItem('scheduleImage');
+            const savedFilename = localStorage.getItem('scheduleFilename');
+            
+            if (savedImage && savedFilename) {
+                selectedImageData = savedImage;
+                selectedFileName = savedFilename;
+                
+                const imgElement = document.getElementById('selectedImage');
+                const filenameElement = document.getElementById('imageFilename');
+                const showBtn = document.getElementById('showImageBtn');
+                
+                imgElement.src = selectedImageData;
+                filenameElement.textContent = selectedFileName;
+                showBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Save image to localStorage
+        function saveImage(imageData, filename) {
+            localStorage.setItem('scheduleImage', imageData);
+            localStorage.setItem('scheduleFilename', filename);
+        }
+
+        // Generate activity cell HTML
+        function generateActivityCell(activity) {
+            if (activity === "-") {
+                return '<div class="activity-cell empty">-</div>';
+            } else if (Array.isArray(activity)) {
+                // Multi-activity cell
+                let html = '<div class="activity-cell multi-activity">';
+                activity.forEach((act, index) => {
+                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                    const activeClass = index === 0 ? ' active' : '';
+                    html += `<div class="activity-option ${className}${activeClass}">${act}</div>`;
+                });
+                html += '</div>';
+                return html;
+            } else {
+                // Single activity cell
+                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                return `<div class="activity-cell has-activity ${className}">${activity}</div>`;
+            }
+        }
+
+        // Load schedule for a specific month
+        function loadSchedule(month) {
+            const data = scheduleData[month];
+            const container = document.getElementById('scheduleContainer');
+            const title = document.getElementById('monthTitle');
+            
+            title.textContent = data.title;
+            
+            let html = `
+                <div class="schedule-grid">
+                    <div class="time-header">Time</div>
+                    <div class="days-grid">
+                        <div class="day-header">MON</div>
+                        <div class="day-header">TUE</div>
+                        <div class="day-header">WED</div>
+                        <div class="day-header">THU</div>
+                        <div class="day-header">FRI</div>
+                        <div class="day-header">SAT</div>
+                        <div class="day-header">SUN</div>
+                    </div>
+            `;
+            
+            Object.entries(data.schedule).forEach(([time, activities]) => {
+                html += `<div class="time-slot">${time}</div>`;
+                html += '<div class="activity-row">';
+                activities.forEach(activity => {
+                    html += generateActivityCell(activity);
+                });
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            // Restart animations after loading new schedule
+            setTimeout(animateMultiActivities, 100);
+        }
+
+        // Switch month function
+        function switchMonth(month) {
+            currentMonth = month;
+            
+            // Update active button
+            document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load new schedule
+            loadSchedule(month);
+        }
 
         // Function to animate multi-activity cells
         function animateMultiActivities() {
             const multiCells = document.querySelectorAll('.multi-activity');
-
+            
             multiCells.forEach(cell => {
                 const options = cell.querySelectorAll('.activity-option');
                 if (options.length <= 1) return;
-
+                
                 let currentIndex = 0;
-
-                // Set initial state
-                options[currentIndex].classList.add('active');
-
+                
                 // Create animation interval for each cell
                 setInterval(() => {
                     // Remove active class from current option
                     options[currentIndex].classList.remove('active');
                     options[currentIndex].classList.add('next');
-
+                    
                     // Move to next option
                     currentIndex = (currentIndex + 1) % options.length;
-
+                    
                     // Add active class to new option
                     setTimeout(() => {
                         options.forEach(opt => opt.classList.remove('next'));
                         options[currentIndex].classList.add('active');
                     }, 250);
-
+                    
                 }, 3000); // Change every 3 seconds
             });
         }
@@ -634,6 +592,9 @@
                     selectedImageData = e.target.result;
                     selectedFileName = file.name;
                     
+                    // Save to localStorage
+                    saveImage(selectedImageData, selectedFileName);
+                    
                     // Update image element
                     const imgElement = document.getElementById('selectedImage');
                     const filenameElement = document.getElementById('imageFilename');
@@ -647,10 +608,9 @@
                     showBtn.textContent = '👁️ Show Image';
                     showBtn.classList.remove('hide-mode');
                     
-                    // Hide image initially
-                    imgElement.style.display = 'none';
-                    filenameElement.style.display = 'none';
+                    // Reset state
                     isImageVisible = false;
+                    hideImage();
                 };
                 reader.readAsDataURL(file);
             }
@@ -710,11 +670,12 @@
             // Restore body scroll
             document.body.style.overflow = 'auto';
         }
-
-        // Start animations when page loads
-        document.addEventListener('DOMContentLoaded', animateMultiActivities);
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSchedule(currentMonth);
+            loadSavedImage();
+        });
     </script>
-
 </body>
-
 </html>
