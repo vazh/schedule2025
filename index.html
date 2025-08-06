@@ -423,31 +423,35 @@
                     },
                     wednesday: {
                         "08:00": "Bimba",
-                        "09:00": "Baby Sport", 
+                        "09:00": "Baby Sport",
                         "10:00": "Baby Gym",
                         "14:00": "Art & Craft",
-                        "15:00": ["Fun & Fit", "Baby Gym"],
+                        "15:00": "Fun & Fit",
                         "16:00": "Art & Craft"
                     },
                     thursday: {
-                        "10:00": ["Gym nastic", "Baby Sport"],
+                        "10:00": "Gym nastic",
                         "11:00": "Mix Sport",
                         "14:00": "Gym nastic"
                     },
                     friday: {
                         "08:00": "Bimba",
-                        "15:00": "Art & Craft"
+                        "10:00": "Baby Gym",
+                        "14:00": "Art & Craft",
+                        "15:00": "Fun & Fit",
                     },
                     saturday: {
                         "08:00": "Push Bike",
-                        "09:00": "Push Bike", 
-                        "10:00": "Push Bike",
-                        "11:00": "Push Bike",
-                        "15:00": ["Mix Sport", "Gym nastic"],
-                        "16:00": "Fun & Fit"
+                        "09:00": ["Push Bike", "Baby Sport"],
+                        "10:00": ["Push Bike", "Baby Gym"],
+                        "11:00": ["Push Bike", "Gym nastic"],
+                        "15:00": ["Mix Sport", "Fun & Fit"]
                     },
                     sunday: {
-                        "10:00": "Art & Craft",
+                        "08:00": "Push Bike",
+                        "09:00": "Push Bike",
+                        "10:00": ["Push Bike", "Art & Craft"],
+                        "11:00": ["Push Bike", "Mix Sport"],
                         "15:00": "Boot camp",
                         "16:00": "Gym nastic"
                     }
@@ -458,53 +462,48 @@
                 dailySchedule: {
                     monday: {
                         "08:00": "Bimba",
-                        "09:00": "Baby Sport",
+                        "09:00": "Baby Gym",
                         "10:00": "Baby Gym",
                         "11:00": "Baby Sport",
-                        "14:00": "Fun & Fit", 
+                        "14:00": "Gym nastic", 
                         "15:00": "Art & Craft"
                     },
                     tuesday: {
-                        "08:00": "Baby Gym",
                         "09:00": "Baby Gym",
-                        "10:00": "Art & Craft",
-                        "15:00": "Boot camp",
-                        "16:00": "Gym nastic"
+                        "14:00": "Gym nastic"
                     },
                     wednesday: {
                         "08:00": "Bimba",
-                        "09:00": "Baby Sport",
-                        "10:00": "Baby Gym", 
-                        "11:00": "Mix Sport",
+                        "10:00": "Baby Sport", 
+                        "11:00": "Baby Gym",
+                        "13:00": "Gym nastic",
                         "14:00": "Art & Craft",
                         "15:00": "Fun & Fit",
                         "16:00": "Art & Craft"
                     },
                     thursday: {
-                        "09:00": "Gym nastic",
                         "10:00": "Gym nastic",
                         "11:00": "Mix Sport",
-                        "14:00": "Gym nastic",
-                        "16:00": "Baby Sport"
+                        "14:00": "Gym nastic"
                     },
                     friday: {
                         "08:00": "Bimba",
-                        "10:00": "Fun & Fit",
-                        "14:00": "Baby Gym",
-                        "15:00": "Art & Craft"
+                        "10:00": "Baby Gym",
+                        "14:00": "Art & Craft",
+                        "15:00": "Fun & Fit"
                     },
                     saturday: {
                         "08:00": "Push Bike",
-                        "09:00": "Push Bike",
-                        "10:00": "Push Bike", 
-                        "11:00": "Push Bike",
-                        "15:00": "Mix Sport",
-                        "16:00": "Fun & Fit"
+                        "09:00": ["Push Bike", "Baby Gym"],
+                        "10:00": ["Push Bike", "Baby Sport"], 
+                        "11:00": ["Push Bike", "Gym nastic"],
+                        "15:00": ["Mix Sport", "Fun & Fit"]
                     },
                     sunday: {
-                        "08:00": "Art & Craft",
-                        "10:00": "Art & Craft",
-                        "11:00": "Boot camp",
+                        "08:00": "Push Bike",
+                        "09:00": "Push Bike",
+                        "10:00": ["Push Bike", "Art & Craft"], 
+                        "11:00": ["Push Bike", "Mix Sport"],
                         "15:00": "Boot camp",
                         "16:00": "Gym nastic"
                     }
@@ -515,7 +514,7 @@
         let selectedImageData = null;
         let selectedFileName = '';
         let isImageVisible = false;
-        let currentMonth = 'july';
+        let currentMonth = 'august';
 
         // Convert daily schedule to hourly format for display
         function convertToHourlyFormat(dailyData) {
@@ -579,7 +578,7 @@
                 // Multi-activity cell
                 let html = '<div class="activity-cell multi-activity">';
                 activity.forEach((act, index) => {
-                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '-');
+                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '');
                     const activeClass = index === 0 ? ' active' : '';
                     html += `<div class="activity-option ${className}${activeClass}">${act}</div>`;
                 });
@@ -587,7 +586,7 @@
                 return html;
             } else {
                 // Single activity cell
-                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '-');
+                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '');
                 return `<div class="activity-cell has-activity ${className}">${activity}</div>`;
             }
         }
