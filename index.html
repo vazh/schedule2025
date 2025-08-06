@@ -185,15 +185,15 @@
             transform: translateY(-10px);
         }
 
-        /* Activity color coding */
+        /* Activity color coding - FIXED styling for Fun & Fit and Art & Craft */
         .bimba { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
         .baby-gym { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
         .baby-sport { background: linear-gradient(135deg, #45b7d1, #96c93d); }
-        .gymnastic { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .art-craft { background: linear-gradient(135deg, #feca57, #ff9ff3); }
+        .gym-nastic { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .art--craft { background: linear-gradient(135deg, #feca57, #ff9ff3); }
         .mix-sport { background: linear-gradient(135deg, #3742fa, #2f3542); }
-        .fun-fit { background: linear-gradient(135deg, #2ed573, #7bed9f); }
-        .bootcamp { background: linear-gradient(135deg, #ff4757, #c44569); }
+        .fun--fit { background: linear-gradient(135deg, #2ed573, #7bed9f); }
+        .boot-camp { background: linear-gradient(135deg, #ff4757, #c44569); }
         .push-bike { background: linear-gradient(135deg, #ff9500, #ff6b35); }
 
         .legend {
@@ -367,7 +367,7 @@
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
-                <span>Gymnastic</span>
+                <span>Gym nastic</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #feca57, #ff9ff3);"></div>
@@ -383,7 +383,7 @@
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #ff4757, #c44569);"></div>
-                <span>Bootcamp</span>
+                <span>Boot camp</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #ff9500, #ff6b35);"></div>
@@ -407,34 +407,107 @@
     </div>
 
     <script>
-        // Schedule data for different months
-        const scheduleData = {
+        // Schedule data organized by days first (easier to input), then converted to hours for display
+        const dailyScheduleData = {
             july: {
                 title: "July 2025",
-                schedule: {
-                    "08:00": ["Bimba", "-", "Bimba", "-", "Bimba", "Push Bike", "-"],
-                    "09:00": ["-", "Baby Gym", "Baby Sport", "-", "-", "Push Bike", "-"],
-                    "10:00": ["Baby Gym", "-", "Baby Gym", ["Gymnastic", "Baby Sport"], "-", "Push Bike", "Art & Craft"],
-                    "11:00": ["Baby Sport", "-", "-", "Mix Sport", "-", "Push Bike", "-"],
-                    "12:00": ["-", "-", "-", "-", "-", "-", "-"],
-                    "13:00": ["-", "-", "-", "-", "-", "-", "-"],
-                    "14:00": ["-", "-", "Art & Craft", "Gymnastic", "-", "-", "-"],
-                    "15:00": ["Art & Craft", "-", ["Fun & Fit", "Baby Gym"], "-", "Art & Craft", ["Mix Sport", "Gymnastic"], "Bootcamp"],
-                    "16:00": ["-", "-", "Art & Craft", "-", "-", "Fun & Fit", "Gymnastic"]
+                dailySchedule: {
+                    monday: {
+                        "08:00": "Bimba",
+                        "10:00": "Baby Gym", 
+                        "11:00": "Baby Sport",
+                        "15:00": "Art & Craft"
+                    },
+                    tuesday: {
+                        "09:00": "Baby Gym"
+                    },
+                    wednesday: {
+                        "08:00": "Bimba",
+                        "09:00": "Baby Sport", 
+                        "10:00": "Baby Gym",
+                        "14:00": "Art & Craft",
+                        "15:00": ["Fun & Fit", "Baby Gym"],
+                        "16:00": "Art & Craft"
+                    },
+                    thursday: {
+                        "10:00": ["Gym nastic", "Baby Sport"],
+                        "11:00": "Mix Sport",
+                        "14:00": "Gym nastic"
+                    },
+                    friday: {
+                        "08:00": "Bimba",
+                        "15:00": "Art & Craft"
+                    },
+                    saturday: {
+                        "08:00": "Push Bike",
+                        "09:00": "Push Bike", 
+                        "10:00": "Push Bike",
+                        "11:00": "Push Bike",
+                        "15:00": ["Mix Sport", "Gym nastic"],
+                        "16:00": "Fun & Fit"
+                    },
+                    sunday: {
+                        "10:00": "Art & Craft",
+                        "15:00": "Boot camp",
+                        "16:00": "Gym nastic"
+                    }
                 }
             },
             august: {
                 title: "August 2025",
-                schedule: {
-                    "08:00": ["Bimba", "Baby Gym", "Bimba", "-", "Bimba", "Push Bike", "Art & Craft"],
-                    "09:00": ["Baby Sport", "Baby Gym", "Baby Sport", "Gymnastic", "-", "Push Bike", "-"],
-                    "10:00": ["Baby Gym", "Art & Craft", "Baby Gym", "Gymnastic", "Fun & Fit", "Push Bike", "Art & Craft"],
-                    "11:00": ["Baby Sport", "-", "Mix Sport", "Mix Sport", "-", "Push Bike", "Bootcamp"],
-                    "12:00": ["-", "-", "-", "-", "-", "-", "-"],
-                    "13:00": ["-", "-", "-", "-", "-", "-", "-"],
-                    "14:00": ["Fun & Fit", "-", "Art & Craft", "Gymnastic", "Baby Gym", "-", "-"],
-                    "15:00": ["Art & Craft", "Bootcamp", "Fun & Fit", "-", "Art & Craft", "Mix Sport", "Bootcamp"],
-                    "16:00": ["-", "Gymnastic", "Art & Craft", "Baby Sport", "-", "Fun & Fit", "Gymnastic"]
+                dailySchedule: {
+                    monday: {
+                        "08:00": "Bimba",
+                        "09:00": "Baby Sport",
+                        "10:00": "Baby Gym",
+                        "11:00": "Baby Sport",
+                        "14:00": "Fun & Fit", 
+                        "15:00": "Art & Craft"
+                    },
+                    tuesday: {
+                        "08:00": "Baby Gym",
+                        "09:00": "Baby Gym",
+                        "10:00": "Art & Craft",
+                        "15:00": "Boot camp",
+                        "16:00": "Gym nastic"
+                    },
+                    wednesday: {
+                        "08:00": "Bimba",
+                        "09:00": "Baby Sport",
+                        "10:00": "Baby Gym", 
+                        "11:00": "Mix Sport",
+                        "14:00": "Art & Craft",
+                        "15:00": "Fun & Fit",
+                        "16:00": "Art & Craft"
+                    },
+                    thursday: {
+                        "09:00": "Gym nastic",
+                        "10:00": "Gym nastic",
+                        "11:00": "Mix Sport",
+                        "14:00": "Gym nastic",
+                        "16:00": "Baby Sport"
+                    },
+                    friday: {
+                        "08:00": "Bimba",
+                        "10:00": "Fun & Fit",
+                        "14:00": "Baby Gym",
+                        "15:00": "Art & Craft"
+                    },
+                    saturday: {
+                        "08:00": "Push Bike",
+                        "09:00": "Push Bike",
+                        "10:00": "Push Bike", 
+                        "11:00": "Push Bike",
+                        "15:00": "Mix Sport",
+                        "16:00": "Fun & Fit"
+                    },
+                    sunday: {
+                        "08:00": "Art & Craft",
+                        "10:00": "Art & Craft",
+                        "11:00": "Boot camp",
+                        "15:00": "Boot camp",
+                        "16:00": "Gym nastic"
+                    }
                 }
             }
         };
@@ -443,6 +516,26 @@
         let selectedFileName = '';
         let isImageVisible = false;
         let currentMonth = 'july';
+
+        // Convert daily schedule to hourly format for display
+        function convertToHourlyFormat(dailyData) {
+            const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
+            const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+            const hourlySchedule = {};
+            
+            hours.forEach(hour => {
+                hourlySchedule[hour] = [];
+                days.forEach(day => {
+                    const daySchedule = dailyData.dailySchedule[day] || {};
+                    hourlySchedule[hour].push(daySchedule[hour] || "-");
+                });
+            });
+            
+            return {
+                title: dailyData.title,
+                schedule: hourlySchedule
+            };
+        }
 
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
@@ -453,7 +546,7 @@
             });
         }
 
-        // Load saved image from localStorage
+        // Load saved image
         function loadSavedImage() {
             const savedImage = localStorage.getItem('scheduleImage');
             const savedFilename = localStorage.getItem('scheduleFilename');
@@ -472,7 +565,7 @@
             }
         }
 
-        // Save image to localStorage
+        // Save image
         function saveImage(imageData, filename) {
             localStorage.setItem('scheduleImage', imageData);
             localStorage.setItem('scheduleFilename', filename);
@@ -486,7 +579,7 @@
                 // Multi-activity cell
                 let html = '<div class="activity-cell multi-activity">';
                 activity.forEach((act, index) => {
-                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '-');
                     const activeClass = index === 0 ? ' active' : '';
                     html += `<div class="activity-option ${className}${activeClass}">${act}</div>`;
                 });
@@ -494,14 +587,15 @@
                 return html;
             } else {
                 // Single activity cell
-                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '-');
                 return `<div class="activity-cell has-activity ${className}">${activity}</div>`;
             }
         }
 
         // Load schedule for a specific month
         function loadSchedule(month) {
-            const data = scheduleData[month];
+            const dailyData = dailyScheduleData[month];
+            const data = convertToHourlyFormat(dailyData);
             const container = document.getElementById('scheduleContainer');
             const title = document.getElementById('monthTitle');
             
