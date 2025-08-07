@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Schedule">
     <title>Activity Schedule PWA</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
@@ -633,10 +637,36 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('SW registered'))
-                    .catch(error => console.log('SW registration failed'));
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            console.log('New service worker found!');
+                        });
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
             });
         }
+
+        // PWA Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt fired');
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            
+            // Show install button (optional)
+            // showInstallButton();
+        });
+
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('App was installed');
+        });
 
         // Load saved image
         function loadSavedImage() {
@@ -671,7 +701,7 @@
                 // Multi-activity cell
                 let html = '<div class="activity-cell multi-activity">';
                 activity.forEach((act, index) => {
-                    const className = act.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                    const className = getActivityClassName(act);
                     const activeClass = index === 0 ? ' active' : '';
                     html += `<div class="activity-option ${className}${activeClass}">${act}</div>`;
                 });
@@ -679,9 +709,26 @@
                 return html;
             } else {
                 // Single activity cell
-                const className = activity.toLowerCase().replace(/\s+/g, '-').replace('&', '');
+                const className = getActivityClassName(activity);
                 return `<div class="activity-cell has-activity ${className}">${activity}</div>`;
             }
+        }
+
+        // Helper function to get correct CSS class name
+        function getActivityClassName(activity) {
+            const activityMap = {
+                'Art & Craft': 'art--craft',
+                'Fun & Fit': 'fun--fit',
+                'Gym nastic': 'gym-nastic',
+                'Boot camp': 'boot-camp',
+                'Baby Gym': 'baby-gym',
+                'Baby Sport': 'baby-sport',
+                'Mix Sport': 'mix-sport',
+                'Push Bike': 'push-bike',
+                'Bimba': 'bimba'
+            };
+            
+            return activityMap[activity] || activity.toLowerCase().replace(/\s+/g, '-').replace('&', '-');
         }
 
         // Load schedule for a specific month
