@@ -1,4 +1,4 @@
-const CACHE_NAME = 'activity-schedule-v1';
+const CACHE_NAME = 'activity-schedule-v2';
 const urlsToCache = [
   '/',
   '/index.html',

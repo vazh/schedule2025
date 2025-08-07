@@ -1,9 +1,9 @@
 {
-  "name": "Activity Schedule PWA",
+  "name": "Activity Schedule",
   "short_name": "Schedule",
   "description": "Weekly Activity Schedule with Image Support",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "theme_color": "#667eea",
   "background_color": "#667eea",
