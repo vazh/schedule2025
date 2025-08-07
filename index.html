@@ -334,9 +334,86 @@
                 padding: 6px 2px;
             }
         }
+
+        /* PWA Splash Screen Styles */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: 0;
+            }
+        }
+
+        /* Loading/Splash Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .splash-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading/Splash Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="splash-logo">📅</div>
+        <h1 class="splash-title">Activity Schedule</h1>
+        <p class="splash-subtitle">Weekly Activity Schedule PWA</p>
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1 id="monthTitle">July 2025</h1>
@@ -438,7 +515,7 @@
                         "08:00": "Bimba",
                         "10:00": "Baby Gym",
                         "14:00": "Art & Craft",
-                        "15:00": "Fun & Fit",
+                        "15:00": "Fun & Fit"
                     },
                     saturday: {
                         "08:00": "Push Bike",
@@ -782,6 +859,17 @@
         
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
+            // Show loading screen for 2 seconds
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.add('hidden');
+                
+                // Remove loading screen from DOM after transition
+                setTimeout(() => {
+                    loadingScreen.remove();
+                }, 500);
+            }, 2000);
+
             // Set active button based on current month
             document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.querySelector(`.month-btn[onclick="switchMonth('${currentMonth}')"]`);

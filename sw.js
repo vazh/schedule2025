@@ -1,8 +1,8 @@
 const CACHE_NAME = 'activity-schedule-v1';
 const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json'
+  '/',
+  '/index.html',
+  '/manifest.json'
 ];
 
 // Install event - cache resources
@@ -61,7 +61,7 @@ self.addEventListener('fetch', event => {
         console.log('Service Worker: Fetch failed:', error);
         // Return cached index.html for navigation requests
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          return caches.match('/index.html');
         }
       })
   );
