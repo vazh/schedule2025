@@ -514,7 +514,23 @@
         let selectedImageData = null;
         let selectedFileName = '';
         let isImageVisible = false;
-        let currentMonth = 'august';
+        let currentMonth = getCurrentMonth();
+
+        // Get current month automatically
+        function getCurrentMonth() {
+            const currentDate = new Date();
+            const currentMonthIndex = currentDate.getMonth(); // 0 = January, 6 = July, 7 = August
+            
+            // July = 6, August = 7
+            if (currentMonthIndex === 6) {
+                return 'july';
+            } else if (currentMonthIndex === 7) {
+                return 'august';
+            } else {
+                // Default to July if not July/August
+                return 'july';
+            }
+        }
 
         // Convert daily schedule to hourly format for display
         function convertToHourlyFormat(dailyData) {
@@ -766,6 +782,11 @@
         
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
+            // Set active button based on current month
+            document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.month-btn[onclick="switchMonth('${currentMonth}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            
             loadSchedule(currentMonth);
             loadSavedImage();
         });
